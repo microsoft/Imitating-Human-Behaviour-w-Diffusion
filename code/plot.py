@@ -10,6 +10,7 @@ from matplotlib import pyplot
 SAVE_DATA_DIR = "output"
 SAVE_FIGURE_DIR = "figures"
 DPI = 300
+IS_USE_LATEX = False
 
 TITLE_KWARGS = {"fontsize": 7, "multialignment": "center", "verticalalignment": "center", "horizontalalignment": "center"}
 YLABEL_TITLE_KWARGS = {"fontsize": "small", "verticalalignment": "center", "horizontalalignment": "right", "rotation": 0}
@@ -56,10 +57,11 @@ EXTRA_DIFFUSION_STEPS = [0, 2, 4, 8, 16, 32]
 GUIDE_WEIGHTS = [0.0, 4.0, 8.0]
 MASK_WEIGHT = 0.3
 
-pyplot.rcParams.update({
-    "text.usetex": True,
-    "font.family": "serif",
-})
+if IS_USE_LATEX:
+    pyplot.rcParams.update({
+        "text.usetex": True,
+        "font.family": "serif",
+    })
 
 
 def plot_main_comparison():
