@@ -2,7 +2,7 @@
 
 Code from ICLR 2023 paper 'Imitating human behaviour with diffusion models' - https://arxiv.org/abs/2301.10677
 
-<img height="100" src="overview_01.png">
+<img height="250" src="overview_01.png">
 
 Note, this code currently only replicates the claw environment experiments of the paper.
 
@@ -10,11 +10,17 @@ Note, this code currently only replicates the claw environment experiments of th
 
 - Install Python (ran on Python 3.9) and/or create a fresh environment
 - Install requirements `pip install -r requirements.txt`
-- For plotting you need to have a valid tex/latex installation. On Ubuntu, you can install all the requirements with `sudo apt install texlive texlive-latex-extra texlive-latex-recommended dvipng cm-super msttcorefonts`
+- For nice labels when plotting, set `IS_USE_LATEX=True`, and ensure you have a valid tex/latex installation. On Ubuntu, you can install all the requirements with `sudo apt install texlive texlive-latex-extra texlive-latex-recommended dvipng cm-super msttcorefonts`
 
 ## Running
 
-Run `./run.sh` or alternatively run each step separately:
+### Mini script
+
+As a lightweight entry-point to the code, we...
+
+### Claw experiments
+
+To recreate the claw machine figures in the paper, run `./run.sh` or alternatively run each step separately:
 
 ```
 python make_dataset.py
@@ -22,8 +28,7 @@ python train.py
 python plot.py
 ```
 
-If everything runs correctly, you should end up with `figures` directory containing the main claw machine result figures shown in the paper.
-
+This creates a `figures` directory containing the main claw machine result figures shown in the paper. This cycles through all methods, and uses the transformer denoising network, resulting in a run time >24 hours.
 
 ## Trademarks
 
