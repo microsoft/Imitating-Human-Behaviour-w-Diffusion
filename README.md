@@ -16,7 +16,7 @@ Note, this code currently only replicates the claw environment experiments of th
 
 ### Mini script
 
-As a lightweight entry-point to the code, we...
+As a lightweight entry-point to the code, we provide `claw_mini_script.py`, which trains a diffusion model and runs the Diffusion-X sampling procedure, on the claw dataset. The dataset must first be created locally, by running `python make_dataset.py`, taking about 1GB of space. `claw_mini_script.py` then runs in around 5 minutes, outputting `code/figures/claw_mini_diffusion_eg.png`. Note this is a smaller network than that used to generate the paper figures.
 
 ### Claw experiments
 

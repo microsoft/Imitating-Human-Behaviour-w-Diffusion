@@ -569,7 +569,7 @@ class Model_Cond_Diffusion(nn.Module):
         else:
             return y_i
 
-    def sample_hack(self, x_batch, extra_steps=4, return_y_trace=False):
+    def sample_extra(self, x_batch, extra_steps=4, return_y_trace=False):
         # also use this as a shortcut to avoid doubling batch when guide_w is zero
         is_zero = False
         if self.guide_w > -1e-3 and self.guide_w < 1e-3:
@@ -621,80 +621,6 @@ class Model_Cond_Diffusion(nn.Module):
                 y_i = y_i[:n_sample]
             y_i = self.oneover_sqrta[i] * (y_i - eps * self.mab_over_sqrtmab[i]) + self.sqrt_beta_t[i] * z
             if return_y_trace and (i % 20 == 0 or i == self.n_T or i < 8):
-                y_i_store.append(y_i.detach().cpu().numpy())
-
-        if return_y_trace:
-            return y_i, y_i_store
-        else:
-            return y_i
-
-    def sample_ddim(self, x_batch, betas, n_T_ddim, eta=0, return_y_trace=False, is_linear=False):
-        # mainly from here: https://github.com/cloneofsimo/minDiffusion/blob/master/mindiffusion/ddim.py
-
-        self.n_T_ddim = n_T_ddim
-        self.eta = eta  # if 0, then is ddim, if 1 is ddpm
-
-        for k, v in ddpm_schedules(betas[0], betas[1], self.n_T_ddim, is_linear=is_linear).items():
-            self.register_buffer(k + "_ddim", v)
-
-        self.alphabar_t_ddim[0] = 1  # manually set this,as per paper
-        self.alphabar_t_ddim = self.alphabar_t_ddim.to("cpu")
-
-        # also use this as a shortcut to avoid doubling batch when guide_w is zero
-        is_zero = False
-        if self.guide_w > -1e-3 and self.guide_w < 1e-3:
-            is_zero = True
-
-        # how many noisy actions to begin with
-        n_sample = x_batch.shape[0]
-
-        y_shape = (n_sample, self.y_dim)
-
-        # sample initial noise, y_0 ~ N(0, 1),
-        y_i = torch.randn(y_shape).to(self.device)
-
-        if not is_zero:
-            if len(x_batch.shape) > 2:
-                # repeat x_batch twice, so can use guided diffusion
-                x_batch = x_batch.repeat(2, 1, 1, 1)
-            else:
-                # repeat x_batch twice, so can use guided diffusion
-                x_batch = x_batch.repeat(2, 1)
-            # half of context will be zero
-            context_mask = torch.zeros(x_batch.shape[0]).to(self.device)
-            context_mask[n_sample:] = 1.0  # makes second half of batch context free
-        else:
-            context_mask = torch.zeros(x_batch.shape[0]).to(self.device)
-
-        # run denoising chain
-        y_i_store = []  # if want to trace how y_i evolved
-        for i in range(self.n_T_ddim, 0, -1):
-            t_is = torch.tensor([i / self.n_T_ddim]).to(self.device)
-            t_is = t_is.repeat(n_sample, 1)
-
-            if not is_zero:
-                # double batch
-                y_i = y_i.repeat(2, 1)
-                t_is = t_is.repeat(2, 1)
-
-            z = torch.randn(y_shape).to(self.device) if i > 1 else 0
-
-            # split predictions and compute weighting
-            eps = self.nn_model(y_i, x_batch, t_is, context_mask)
-            if not is_zero:
-                eps1 = eps[:n_sample]
-                eps2 = eps[n_sample:]
-                eps = (1 + self.guide_w) * eps1 - self.guide_w * eps2
-                y_i = y_i[:n_sample]
-
-            y0_t = (y_i - eps * (1 - self.alphabar_t_ddim[i]).sqrt()) / self.alphabar_t_ddim[i].sqrt()
-            c1 = (
-                self.eta * (1 - self.alphabar_t_ddim[i] / self.alphabar_t_ddim[i - 1]).sqrt() * ((1 - self.alphabar_t_ddim[i - 1]) / (1 - self.alphabar_t_ddim[i])).sqrt()
-            )  # eq. 16 of DDIM
-            c2 = ((1 - self.alphabar_t_ddim[i - 1]) - c1**2).sqrt()
-            y_i = self.alphabar_t_ddim[i - 1].sqrt() * y0_t + c1 * z + c2 * eps  # eq. 12 of DDIM
-
-            if return_y_trace and (i % 20 == 0 or i == self.n_T_ddim or i < 8):
                 y_i_store.append(y_i.detach().cpu().numpy())
 
         if return_y_trace:

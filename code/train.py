@@ -128,7 +128,7 @@ class ClawCustomDataset(Dataset):
         return (image, action)
 
 
-def main(experiment):
+def train_claw(experiment, n_epoch, lrate, device, n_hidden, batch_size, n_T, net_type, EXTRA_DIFFUSION_STEPS, GUIDE_WEIGHTS):
     # Unpack experiment settings
     exp_name = experiment["exp_name"]
     model_type = experiment["model_type"]
@@ -338,7 +338,7 @@ def main(experiment):
                                 idx = np.argmax(log_density)
                                 y_pred_ = action_pred_many[idx][None, :]
                         else:
-                            y_pred_ = model.sample_hack(x_eval_, extra_steps=extra_diffusion_step).detach().cpu().numpy()
+                            y_pred_ = model.sample_extra(x_eval_, extra_steps=extra_diffusion_step).detach().cpu().numpy()
                 if j == 0:
                     y_pred = y_pred_
                 else:
@@ -367,4 +367,4 @@ def main(experiment):
 if __name__ == "__main__":
     os.makedirs(SAVE_DATA_DIR, exist_ok=True)
     for experiment in EXPERIMENTS:
-        main(experiment)
+        train_claw(experiment, n_epoch, lrate, device, n_hidden, batch_size, n_T, net_type, EXTRA_DIFFUSION_STEPS, GUIDE_WEIGHTS)
