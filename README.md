@@ -10,7 +10,7 @@ Note, this code currently only replicates the claw environment experiments of th
 
 - Install Python (ran on Python 3.9) and/or create a fresh environment
 - Install requirements `pip install -r requirements.txt`
-- For nice labels when plotting, set `IS_USE_LATEX=True`, and ensure you have a valid tex/latex installation. On Ubuntu, you can install all the requirements with `sudo apt install texlive texlive-latex-extra texlive-latex-recommended dvipng cm-super msttcorefonts`
+- For nice labels when plotting, set `IS_USE_LATEX=True`, and ensure you have a valid tex/latex installation. To get it on Ubuntu run, `sudo apt install texlive texlive-latex-extra texlive-latex-recommended dvipng cm-super msttcorefonts`.
 
 ## Running
 

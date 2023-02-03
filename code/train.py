@@ -86,10 +86,8 @@ lrate = 1e-4
 device = "cuda"
 n_hidden = 512
 batch_size = 32
-save_model = False
 n_T = 50
 net_type = "transformer"
-use_prev = False
 
 
 class ClawCustomDataset(Dataset):
