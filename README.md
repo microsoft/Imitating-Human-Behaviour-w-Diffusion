@@ -10,7 +10,6 @@ Note, this code currently only replicates the claw environment experiments of th
 
 - Install Python (ran on Python 3.9) and/or create a fresh environment
 - Install requirements `pip install -r requirements.txt`
-- For nice labels when plotting, set `IS_USE_LATEX=True`, and ensure you have a valid tex/latex installation. To get it on Ubuntu run, `sudo apt install texlive texlive-latex-extra texlive-latex-recommended dvipng cm-super msttcorefonts`.
 
 ## Running
 
@@ -30,6 +29,8 @@ python plot.py
 
 This creates a `figures` directory containing the main claw machine result figures shown in the paper. This cycles through all methods, and uses the transformer denoising network, resulting in a run time >24 hours.
 
+For nice labels when plotting, set `IS_USE_LATEX=True`, and ensure you have a valid tex/latex installation. To get it on Ubuntu run, `sudo apt install texlive texlive-latex-extra texlive-latex-recommended dvipng cm-super msttcorefonts`.
+
 ## Trademarks
 
 This project may contain trademarks or logos for projects, products, or services. Authorized use of Microsoft 
@@ -39,4 +40,4 @@ Use of Microsoft trademarks or logos in modified versions of this project must n
 Any use of third-party trademarks or logos are subject to those third-party's policies.
 
 ## License
-Code is licensed under MIT, data and all other content is licensed under Microsoft Research License Agreement (MSR-LA). See LICENSE folder.
+Code is licensed under MIT, data and all other content is licensed under Microsoft Research License Agreement (MSR-LA). See LICENSE.
