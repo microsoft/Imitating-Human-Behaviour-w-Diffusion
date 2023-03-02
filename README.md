@@ -4,7 +4,7 @@ Code from ICLR 2023 paper 'Imitating human behaviour with diffusion models' - ht
 
 <img height="250" src="overview_01.png">
 
-Note, this code currently only replicates the claw environment experiments of the paper.
+This code currently only replicates the claw environment experiments of the paper. We plan to update this with other experiments soon.
 
 ## Setup
 
