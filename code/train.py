@@ -83,7 +83,7 @@ GUIDE_WEIGHTS = [0.0, 4.0, 8.0]
 
 n_epoch = 100
 lrate = 1e-4
-device = "cuda"
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 n_hidden = 512
 batch_size = 32
 n_T = 50
