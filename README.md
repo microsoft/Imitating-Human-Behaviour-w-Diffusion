@@ -11,7 +11,7 @@ This code currently only replicates the claw environment experiments of the pape
 - Install Python (ran on Python 3.9) and/or create a fresh environment
 - Install requirements `pip install -r requirements.txt`
 
-For Mac you would need to remove the requirement for CUDA from `requirements.txt` for `torchvision`.
+For Mac you would need to remove the requirement for CUDA from `requirements.txt` for `torchvision` and install it with CPU support.
 
 ## Running
 
