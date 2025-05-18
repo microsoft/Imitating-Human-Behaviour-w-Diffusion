@@ -11,6 +11,8 @@ This code currently only replicates the claw environment experiments of the pape
 - Install Python (ran on Python 3.9) and/or create a fresh environment
 - Install requirements `pip install -r requirements.txt`
 
+For Mac you would need to remove the requirement for CUDA from `requirements.txt` for `torchvision`.
+
 ## Running
 
 ### Mini script
@@ -22,6 +24,7 @@ As a lightweight entry-point to the code, we provide `claw_mini_script.py`, whic
 To recreate the claw machine figures in the paper, run `./run.sh` or alternatively run each step separately:
 
 ```
+cd code
 python make_dataset.py
 python train.py
 python plot.py
